@@ -1,0 +1,66 @@
+<div class="row" [ngSwitch]="chartType">
+  <div class="row" *ngSwitchCase="'male-female-chart'">
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Percentage of Male and Female</h5>
+        <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="chartData" [legend]="showLegend" [explodeSlices]="explodeSlices"
+          [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngSwitchCase="'first-last-name-chart'">
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">First Names</h5>
+        <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" [results]="chartData1" (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
+      </div>
+    </div>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Last Names</h5>
+        <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" [results]="chartData2" (select)="onSelect($event)">
+        </ngx-charts-pie-grid>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngSwitchCase="'states-chart'">
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Female Count</h5>
+        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData1" [gradient]="gradient" [xAxis]="showXAxis"
+          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Male Count</h5>
+        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData2" [gradient]="gradient" [xAxis]="showXAxis"
+          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Overall Count</h5>
+        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData3" [gradient]="gradient" [xAxis]="showXAxis"
+          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngSwitchDefault>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">Age Ranges of Data</h5>
+        <ngx-charts-tree-map [view]="view" [scheme]="colorScheme" [results]="chartData" (select)="onSelect($event)">
+        </ngx-charts-tree-map>
+      </div>
+    </div>
+  </div>
+</div>

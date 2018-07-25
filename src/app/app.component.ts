@@ -1,8 +1,12 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { FormComponent } from './form/form.component';
 const mockData = require('./mock.json');
 
-import { separateMaleAndFemale, namePercentages, separateByState, separateByAgeRanges } from './utils';
+import {
+  createChartTemplate,
+  createChartData,
+  separateByAgeRanges
+} from './utils';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +17,12 @@ export class AppComponent implements OnInit {
   @ViewChild(FormComponent) child;
   submitted = true;
   data = mockData;
+  chartData: any[];
+  chartType: string;
 
   ngOnInit() {
-    console.log(this.data)
-    console.log(separateByAgeRanges(this.data.results));
+    this.chartData = createChartData('other', mockData.results);
+    this.chartType = 'other';
   }
 
   receiveMessage(data) {

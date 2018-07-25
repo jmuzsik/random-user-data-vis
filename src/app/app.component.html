@@ -6,7 +6,9 @@
         <app-form (messageEvent)="receiveMessage($event)"></app-form>
       </div>
       <ng-template #showCharts>
-        <div>this is stuff</div>
+        <div *ngIf="chartType && chartData">
+          <app-reuseable-chart [chartType]="chartType" [chartData]="chartData"></app-reuseable-chart>
+        </div>
       </ng-template>
     </main>
   </div>
