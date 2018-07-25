@@ -2,12 +2,12 @@
   <h3>Input</h3>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="input-group-prepend">
-      <span class="input-group-text">Upload File</span>
+      <span class="input-group-text">Upload JSON File</span>
     </div>
     <input class="form-control" type="file" accept=".json" (change)="checkJSON($event)" formControlName="file">
 
     <div class="input-group-prepend">
-      <span class="input-group-text">With textarea</span>
+      <span class="input-group-text">Or Paste the JSON</span>
     </div>
     <textarea class="form-control" [value]="jsonString" (change)="checkJSON($event)" (keyup)="checkJSON($event)" aria-label="With textarea"
       formControlName="jsonString"></textarea>

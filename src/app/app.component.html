@@ -2,7 +2,12 @@
   <div class="row h-100">
     <app-side-navbar></app-side-navbar>
     <main class="col bg-faded py-3">
-      <app-form></app-form>
+      <div *ngIf="!submitted; else showCharts;">
+        <app-form (messageEvent)="receiveMessage($event)"></app-form>
+      </div>
+      <ng-template #showCharts>
+        <div>this is stuff</div>
+      </ng-template>
     </main>
   </div>
 </div>

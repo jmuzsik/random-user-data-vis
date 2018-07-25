@@ -8,7 +8,7 @@
         "city": "simo",
         "state": "northern ostrobothnia",
         "postcode": 50657,
-        "coordinates": { "latitud e": "-8.6002", "longitude": "121.6312" },
+        "coordinates": { "latitude": "-8.6002", "longitude": "121.6312" },
         "timezone": {
           "offset": "+5:00",
           "description": "Ekaterinburg, Islamabad, Karachi, Tashkent"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent {
+  @Output() messageEvent = new EventEmitter<string>();
+
   submitted = false;
   form = new FormGroup({
     jsonString: new FormControl(''),
@@ -40,7 +42,6 @@ export class FormComponent {
     } catch (ex) {
       this.disabled = true;
     }
-    console.log(this.disabled)
   }
 
   readFile(inputFile) {
@@ -59,7 +60,12 @@ export class FormComponent {
     });
   }
 
+  sendMessage() {
+    this.messageEvent.emit(this.data);
+  }
+
   onSubmit() {
     this.submitted = true;
+    this.sendMessage();
   }
 }
