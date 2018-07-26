@@ -12,6 +12,7 @@
     "serverless-offline": "3.25.6"
   },
   "dependencies": {
-    "aws-sdk": "2.280.1"
+    "aws-sdk": "2.280.1",
+    "js2xmlparser": "3.0.0"
   }
 }

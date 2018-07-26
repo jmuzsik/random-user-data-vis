@@ -246,16 +246,21 @@ export function createChartData(type, data): any[] {
       return finalData;
     default:
       const ageRangeData = separateByAgeRanges(data);
-      Object.keys(ageRangeData).forEach(ageRange => {
+      const keys = Object.keys(ageRangeData);
+      const getValuesForPercentage = [];
+      keys.forEach(ageRange => {
+        getValuesForPercentage.push(ageRangeData[ageRange]);
+      });
+      const percentages = getPercentage(getValuesForPercentage);
+      keys.forEach((ageRange, i) => {
         const ageRangeObj = {
           name: ageRange.split('_').join(' '),
-          value: ageRangeData[ageRange]
+          value: percentages[i]
         };
         finalData.push(ageRangeObj);
       });
       return finalData;
   }
-  return finalData;
 }
 
 interface StateAndGender {

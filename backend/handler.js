@@ -28,7 +28,7 @@ module.exports.alterFile = (event, context, callback) => {
       const maleData = stateData[1];
       const overallData = stateData[2];
       const ageRangeData = createChartData('age-range', json);
-      console.log(ageRangeData)
+      console.log(ageRangeData);
 
       let fileContent;
       if (acceptHeader === 'application/json') {
@@ -51,19 +51,21 @@ module.exports.alterFile = (event, context, callback) => {
         };
       } else if (acceptHeader === 'text/html') {
         const toPercent = float => {
-          let numbers = String(float).split('.')[1];
+          let strFloat = String(float);
+          if (strFloat.length < 3) return strFloat;
+          let numbers = strFloat.split('.')[1];
           return numbers.slice(0, 2) + '.' + numbers.slice(2) + '%';
         };
         const stateFemaleStrings = femaleData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}),`;
+          str += `${stateObj.name}(${String(stateObj.value)}), `;
           return str;
         }, ``);
         const stateMaleStrings = maleData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}),`;
+          str += `${stateObj.name}(${String(stateObj.value)}), `;
           return str;
         }, ``);
         const stateOverallStrings = overallData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}),`;
+          str += `${stateObj.name}(${String(stateObj.value)}), `;
           return str;
         }, ``);
         fileContent = `
@@ -87,19 +89,37 @@ module.exports.alterFile = (event, context, callback) => {
 
         The states with the most female users are these: ${stateFemaleStrings.slice(
           0,
-          stateFemaleStrings.length - 1
+          stateFemaleStrings.length - 2
         )}.
         The states with the most male users are these: ${stateMaleStrings.slice(
           0,
-          stateMaleStrings.length - 1
+          stateMaleStrings.length - 2
         )}.
         The states with the most overall users are these: ${stateOverallStrings.slice(
           0,
-          stateOverallStrings.length - 1
+          stateOverallStrings.length - 2
         )}.
 
-
+        There are ${toPercent(
+          ageRangeData[0].value
+        )} users aged between zero and twenty. 
+        There are ${toPercent(
+          ageRangeData[1].value
+        )} users aged between twenty one and forty. 
+        There are ${toPercent(
+          ageRangeData[2].value
+        )} users aged between forty one and sixty. 
+        There are ${toPercent(
+          ageRangeData[3].value
+        )} users aged between sixty one and eighty. 
+        There are ${toPercent(
+          ageRangeData[4].value
+        )} users aged between eighty one and one hundred. 
+        There are ${toPercent(
+          ageRangeData[4].value
+        )} users older then one hundred. 
         `;
+        console.log(fileContent);
       }
     }
   });
