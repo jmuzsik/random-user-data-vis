@@ -3,12 +3,10 @@
     <app-side-navbar></app-side-navbar>
     <main class="col bg-faded py-3">
       <div *ngIf="!submitted; else showCharts;">
-        <app-form (messageEvent)="receiveMessage($event)"></app-form>
+        <app-form [failedFile]="failedFile" (messageEvent)="receiveMessage($event)"></app-form>
       </div>
       <ng-template #showCharts>
-        <div *ngIf="chartType && chartData">
-          <app-reuseable-chart [chartType]="chartType" [chartData]="chartData"></app-reuseable-chart>
-        </div>
+        <app-reuseable-chart [receivedData]="data"></app-reuseable-chart>
       </ng-template>
     </main>
   </div>

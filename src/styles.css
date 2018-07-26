@@ -10,4 +10,13 @@ main {
   display: flex;
   align-content: center;
   justify-content: center;
+  background-color: rgb(245, 245, 239);
+}
+
+app-side-navbar {
+  border: 2px solid rgb(150, 120, 167);
+}
+
+app-side-navbar * {
+  color: rgb(150, 120, 167);
 }

@@ -1,0 +1,14 @@
+.main-row {
+  height: 100%;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.row nav, .pagination {
+  justify-content: center;
+}

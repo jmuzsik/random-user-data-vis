@@ -56,7 +56,18 @@ provider:
 
 functions:
   createFile:
-    handler: handler.createFile
+    handler: handler.alterFile
+    events:
+      - s3:
+          bucket: mrbucket-3
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: files/
+            - suffix: .json
+      - http:
+          path: hello
+          method: get
+          cors: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -92,12 +103,12 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
+# resources:
 #  Resources:
 #    NewResource:
 #      Type: AWS::S3::Bucket
 #      Properties:
-#        BucketName: my-new-bucket
+#        BucketName: mrbucket-3
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"

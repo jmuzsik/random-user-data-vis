@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { FormComponent } from './form/form.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { ReuseableChartComponent } from './reuseable-chart/reuseable-chart.component';
+import { DataService } from './data.service';
+import { UploadFileService } from './put-data.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { ReuseableChartComponent } from './reuseable-chart/reuseable-chart.compo
     NgxChartsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [DataService, UploadFileService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

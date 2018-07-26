@@ -1,5 +1,5 @@
-<div class="row" [ngSwitch]="chartType">
-  <div class="row" *ngSwitchCase="'male-female-chart'">
+<div class="row main-row" [ngSwitch]="chartType">
+  <div class="col-12" *ngSwitchCase="'male-female-chart'">
     <div class="card my-3">
       <div class="card-body">
         <h5 class="card-title text-center">Percentage of Male and Female</h5>
@@ -26,32 +26,49 @@
     </div>
   </div>
   <div class="row" *ngSwitchCase="'states-chart'">
-    <div class="card my-3">
-      <div class="card-body">
-        <h5 class="card-title text-center">Female Count</h5>
-        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData1" [gradient]="gradient" [xAxis]="showXAxis"
-          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
-        </ngx-charts-bar-vertical>
+    <div [ngSwitch]="currentChart">
+      <div *ngSwitchCase="'female'" class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title text-center">Female Count</h5>
+          <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData1" [gradient]="gradient" [xAxis]="showXAxis"
+            [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+      <div *ngSwitchCase="'male'" class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title text-center">Male Count</h5>
+          <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData2" [gradient]="gradient" [xAxis]="showXAxis"
+            [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+      <div *ngSwitchDefault class="card my-3">
+        <div class="card-body">
+          <h5 class="card-title text-center">Overall Count</h5>
+          <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData3" [gradient]="gradient" [xAxis]="showXAxis"
+            [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+          </ngx-charts-bar-vertical>
+        </div>
       </div>
     </div>
-    <div class="card my-3">
-      <div class="card-body">
-        <h5 class="card-title text-center">Male Count</h5>
-        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData2" [gradient]="gradient" [xAxis]="showXAxis"
-          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
-        </ngx-charts-bar-vertical>
-      </div>
-    </div>
-    <div class="card my-3">
-      <div class="card-body">
-        <h5 class="card-title text-center">Overall Count</h5>
-        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="chartData3" [gradient]="gradient" [xAxis]="showXAxis"
-          [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
-        </ngx-charts-bar-vertical>
-      </div>
+    <div class="col-12">
+      <nav aria-label="Chart navigation">
+        <ul class="pagination">
+          <li class="page-item">
+            <a (click)="onClick($event, 'female')" class="page-link" href="#">Female</a>
+          </li>
+          <li class="page-item">
+            <a (click)="onClick($event, 'male')" class="page-link" href="#">Male</a>
+          </li>
+          <li class="page-item">
+            <a (click)="onClick($event, 'overall')" class="page-link" href="#">Overall</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
   <div class="row" *ngSwitchDefault>

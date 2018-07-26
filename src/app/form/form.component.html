@@ -1,17 +1,24 @@
 <div class="container">
-  <h3>Input</h3>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="input-group-prepend">
-      <span class="input-group-text">Upload JSON File</span>
-    </div>
-    <input class="form-control" type="file" accept=".json" (change)="checkJSON($event)" formControlName="file">
+  <h1 class="text-center">Welcome!</h1>
+  <div class="card my-3">
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="input-group-prepend mt-4">
+          <span class="input-group-text">Upload JSON File</span>
+        </div>
+        <input class="form-control" type="file" accept=".json" (change)="checkJSON($event)" formControlName="file">
 
-    <div class="input-group-prepend">
-      <span class="input-group-text">Or Paste the JSON</span>
-    </div>
-    <textarea class="form-control" [value]="jsonString" (change)="checkJSON($event)" (keyup)="checkJSON($event)" aria-label="With textarea"
-      formControlName="jsonString"></textarea>
+        <div class="input-group-prepend mt-4">
+          <span class="input-group-text">Or Paste the JSON</span>
+        </div>
+        <textarea class="form-control" [value]="jsonString" (change)="checkJSON($event)" (keyup)="checkJSON($event)" aria-label="With textarea"
+          formControlName="jsonString"></textarea>
 
-    <button [disabled]="disabled" type="submit" class="btn btn-primary">Submit</button>
-  </form>
+        <button [disabled]="disabled" type="submit" class="btn btn-primary mt-4">Submit</button>
+        <div *ngIf="failedFile" class="alert alert-warning fade show" role="alert">
+          File inputted is not of the right format!
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

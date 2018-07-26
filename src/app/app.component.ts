@@ -1,12 +1,6 @@
-import { Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormComponent } from './form/form.component';
-const mockData = require('./mock.json');
-
-import {
-  createChartTemplate,
-  createChartData,
-  separateByAgeRanges
-} from './utils';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +9,25 @@ import {
 })
 export class AppComponent implements OnInit {
   @ViewChild(FormComponent) child;
-  submitted = true;
-  data = mockData;
-  chartData: any[];
-  chartType: string;
+  submitted = false;
+  data: any[];
+  failedFile = false;
 
   ngOnInit() {
-    this.chartData = createChartData('other', mockData.results);
-    this.chartType = 'other';
+    this.dataService.currentMessage.subscribe(message => {
+      if (message === 'reset') {
+        this.submitted = false;
+      } else if (message === 'wrong-file') {
+        this.submitted = false;
+        this.failedFile = true;
+      }
+    });
   }
 
   receiveMessage(data) {
     this.data = data;
     this.submitted = true;
   }
+
+  constructor(private dataService: DataService) {}
 }

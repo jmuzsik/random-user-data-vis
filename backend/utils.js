@@ -1,8 +1,4 @@
-import { TemplateRef } from '@angular/core';
-
-const mockData = require('./mock.json').results;
-
-export function separateMaleAndFemale(data): [boolean[], boolean[]] {
+function separateMaleAndFemale(data) {
   let currentUser;
   const females = [],
     males = [];
@@ -17,11 +13,8 @@ export function separateMaleAndFemale(data): [boolean[], boolean[]] {
   return [females, males];
 }
 
-export function separateByName(
-  data,
-  firstOrLast: string
-): [any[], any[], any[]] {
-  let currentUser, name: string;
+function separateByName(data, firstOrLast) {
+  let currentUser, name;
   const namesAtoM = [],
     namesNtoZ = [],
     namesDifferentASCII = [];
@@ -52,8 +45,8 @@ export function separateByName(
   return [namesAtoM, namesNtoZ, namesDifferentASCII];
 }
 
-export function separateByState(data): {} {
-  let currentUser, currentState: string, gender: string;
+function separateByState(data) {
+  let currentUser, currentState, gender;
   const statesWithGenderCount = [];
   for (let i = 0; i < data.length; i++) {
     currentUser = data[i];
@@ -74,7 +67,7 @@ export function separateByState(data): {} {
   return statesWithGenderCount;
 }
 
-export function separateByAgeRanges(data): {} {
+function separateByAgeRanges(data) {
   let currentUser, age;
   const ageRanges = {
     Zero_to_twenty: 0,
@@ -104,14 +97,11 @@ export function separateByAgeRanges(data): {} {
   return ageRanges;
 }
 
-export function createChartData(type, data): any[] {
+function createChartData(type, data) {
   const finalData = [];
   switch (type) {
     case 'male-female-chart':
-      const [amountOfFemales, amountOfMales]: [
-        boolean[],
-        boolean[]
-      ] = separateMaleAndFemale(data);
+      const [amountOfFemales, amountOfMales] = separateMaleAndFemale(data);
       const [percentageOfFemales, percentageOfMales] = getPercentage([
         amountOfFemales.length,
         amountOfMales.length
@@ -193,7 +183,7 @@ export function createChartData(type, data): any[] {
       const statesData = separateByState(data);
       const convertDataToArr = [];
       Object.keys(statesData).forEach(state => {
-        const stateObj: StateAndGender = {
+        const stateObj = {
           state,
           count: statesData[state].count,
           male: statesData[state].male,
@@ -258,20 +248,22 @@ export function createChartData(type, data): any[] {
   return finalData;
 }
 
-interface StateAndGender {
-  state: string;
-  count: number;
-  male: number;
-  female: number;
-}
-
-function getPercentage(comparedValues: number[]): number[] {
-  const valuesToPercentages: number[] = [];
+function getPercentage(comparedValues) {
+  const valuesToPercentages = [];
   const sum = comparedValues.reduce((total, value) => (total += value), 0);
   for (let i = 0; i < comparedValues.length; i++) {
-    const currentValue: number = comparedValues[i];
-    const percentage: number = currentValue / sum;
+    const currentValue = comparedValues[i];
+    const percentage = currentValue / sum;
     valuesToPercentages.push(percentage);
   }
   return valuesToPercentages;
 }
+
+module.exports = {
+  separateMaleAndFemale,
+  separateByName,
+  separateByState,
+  separateByAgeRanges,
+  createChartData,
+  getPercentage
+};

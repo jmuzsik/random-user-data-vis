@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { UploadFileService } from '../put-data.service';
 
 @Component({
   selector: 'app-form',
@@ -8,6 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class FormComponent {
   @Output() messageEvent = new EventEmitter<string>();
+  @Input() failedFile = false;
 
   submitted = false;
   form = new FormGroup({
@@ -18,6 +20,7 @@ export class FormComponent {
   jsonString = '';
   disabled = true;
   data: any;
+  file: any;
 
   async checkJSON(event) {
     // get value from text area
@@ -27,6 +30,7 @@ export class FormComponent {
       let file;
       try {
         file = event.srcElement.files[0];
+        this.file = file;
       } catch (e) {
         console.error('Error reading file', e);
       }
@@ -67,5 +71,7 @@ export class FormComponent {
   onSubmit() {
     this.submitted = true;
     this.sendMessage();
+    this.uploadFileService.uploadfile(this.file);
   }
+  constructor(private uploadFileService: UploadFileService) {}
 }
