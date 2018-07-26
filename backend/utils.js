@@ -264,11 +264,118 @@ function getPercentage(comparedValues) {
   return valuesToPercentages;
 }
 
+function createJSONObj(
+  maleFemaleData,
+  firstNameData,
+  lastNameData,
+  femaleData,
+  maleData,
+  overallData,
+  ageRangeData
+) {
+  fileContent = {};
+  fileContent['maleFemalePercentages'] = {
+    female: maleFemaleData[0].value,
+    male: maleFemaleData[1].value
+  };
+  fileContent['firstLastNamePercentages'] = {
+    firstNameData,
+    lastNameData
+  };
+  fileContent['statesData'] = {
+    femaleData,
+    maleData,
+    overallData
+  };
+  fileContent['ageRange'] = {
+    ageRangeData
+  };
+}
+
+function createTextFile(
+  maleFemaleData,
+  firstNameData,
+  lastNameData,
+  femaleData,
+  maleData,
+  overallData,
+  ageRangeData
+) {
+  const toPercent = float => {
+    let strFloat = String(float);
+    if (strFloat.length < 3) return strFloat;
+    let numbers = strFloat.split('.')[1];
+    return numbers.slice(0, 2) + '.' + numbers.slice(2) + '%';
+  };
+  const stateFemaleStrings = femaleData.reduce((str, stateObj) => {
+    str += `${stateObj.name}(${String(stateObj.value)}), `;
+    return str;
+  }, ``);
+  const stateMaleStrings = maleData.reduce((str, stateObj) => {
+    str += `${stateObj.name}(${String(stateObj.value)}), `;
+    return str;
+  }, ``);
+  const stateOverallStrings = overallData.reduce((str, stateObj) => {
+    str += `${stateObj.name}(${String(stateObj.value)}), `;
+    return str;
+  }, ``);
+  return `
+  There are ${toPercent(maleFemaleData[0].value)} females and ${toPercent(
+    maleFemaleData[1].value
+  )} males in the dataset.
+
+  ${toPercent(
+    firstNameData[0].value
+  )} of first names first letter is between A and M ${toPercent(
+    firstNameData[1].value
+  )} of first names are between N and Z.
+  Also, ${toPercent(firstNameData[2].value)} use non-english characters.
+
+  ${toPercent(
+    lastNameData[0].value
+  )} of first names first letter is between A and M ${toPercent(
+    lastNameData[1].value
+  )} of first names are between N and Z.
+  Also, ${toPercent(lastNameData[2].value)} use non-english characters.
+
+  The states with the most female users are these: ${stateFemaleStrings.slice(
+    0,
+    stateFemaleStrings.length - 2
+  )}.
+  The states with the most male users are these: ${stateMaleStrings.slice(
+    0,
+    stateMaleStrings.length - 2
+  )}.
+  The states with the most overall users are these: ${stateOverallStrings.slice(
+    0,
+    stateOverallStrings.length - 2
+  )}.
+
+  There are ${toPercent(
+    ageRangeData[0].value
+  )} users aged between zero and twenty. 
+  There are ${toPercent(
+    ageRangeData[1].value
+  )} users aged between twenty one and forty. 
+  There are ${toPercent(
+    ageRangeData[2].value
+  )} users aged between forty one and sixty. 
+  There are ${toPercent(
+    ageRangeData[3].value
+  )} users aged between sixty one and eighty. 
+  There are ${toPercent(
+    ageRangeData[4].value
+  )} users aged between eighty one and one hundred. 
+  There are ${toPercent(ageRangeData[4].value)} users older then one hundred. 
+  `;
+}
 module.exports = {
   separateMaleAndFemale,
   separateByName,
   separateByState,
   separateByAgeRanges,
   createChartData,
-  getPercentage
+  getPercentage,
+  createJSONObj,
+  createTextFile
 };

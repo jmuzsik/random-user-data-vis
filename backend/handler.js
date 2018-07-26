@@ -2,15 +2,24 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const fs = require('fs');
+var js2xmlparser = require('js2xmlparser');
 
 const createChartData = require('./utils').createChartData;
+const createTextFile = require('./utils').createTextFile;
+const createJSONObj = require('./utils').createJSONObj;
 
 module.exports.alterFile = (event, context, callback) => {
   const params = {
     Bucket: 'mrbucket-3',
-    Key: 'files/editme.json'
+    Key: 'editme.json'
   };
-
+  const response = {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: 'Well, hello there!',
+      input: event
+    })
+  };
   const acceptHeader = event.headers.Accept.split(',').slice(0, 1)[0];
 
   s3.getObject(params, function(err, data) {
@@ -28,128 +37,132 @@ module.exports.alterFile = (event, context, callback) => {
       const maleData = stateData[1];
       const overallData = stateData[2];
       const ageRangeData = createChartData('age-range', json);
-      console.log(ageRangeData);
 
       let fileContent;
       if (acceptHeader === 'application/json') {
-        fileContent = {};
-        fileContent['maleFemalePercentages'] = {
-          female: maleFemaleData[0].value,
-          male: maleFemaleData[1].value
-        };
-        fileContent['firstLastNamePercentages'] = {
+        let fileContent = createJSONObj(
+          maleFemaleData,
           firstNameData,
-          lastNameData
-        };
-        fileContent['statesData'] = {
+          lastNameData,
           femaleData,
           maleData,
-          overallData
-        };
-        fileContent['ageRange'] = {
+          overallData,
           ageRangeData
-        };
+        );
+        const content = JSON.stringify(fileContent);
+
+        fs.writeFile('user-data.json', fileContent, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+          fs.readFile('user-data.json', 'utf8', function(err, data) {
+            if (err) {
+              return console.log(err);
+            }
+            const parameters = {
+              Bucket: 'mrbucket-3',
+              Key: 'user-data.json',
+              Body: data
+            };
+            console.log(data);
+            s3.upload(parameters, function(err, data) {
+              if (err) {
+                console.log('There was an error uploading your file: ', err);
+                return false;
+              }
+
+              fs.unlink('./user-data.json', err => {
+                if (err) {
+                  console.log('failed to delete local image:' + err);
+                }
+                callback(null, response);
+              });
+            });
+          });
+          console.log('The text file was saved!');
+        });
       } else if (acceptHeader === 'text/html') {
-        const toPercent = float => {
-          let strFloat = String(float);
-          if (strFloat.length < 3) return strFloat;
-          let numbers = strFloat.split('.')[1];
-          return numbers.slice(0, 2) + '.' + numbers.slice(2) + '%';
-        };
-        const stateFemaleStrings = femaleData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}), `;
-          return str;
-        }, ``);
-        const stateMaleStrings = maleData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}), `;
-          return str;
-        }, ``);
-        const stateOverallStrings = overallData.reduce((str, stateObj) => {
-          str += `${stateObj.name}(${String(stateObj.value)}), `;
-          return str;
-        }, ``);
-        fileContent = `
-        There are ${toPercent(maleFemaleData[0].value)} females and ${toPercent(
-          maleFemaleData[1].value
-        )} males in the dataset.
+        fileContent = createTextFile(
+          maleFemaleData,
+          firstNameData,
+          lastNameData,
+          femaleData,
+          maleData,
+          overallData,
+          ageRangeData
+        );
+        fs.writeFile('user-data.txt', fileContent, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+          fs.readFile('user-data.txt', 'utf8', function(err, data) {
+            if (err) {
+              return console.log(err);
+            }
+            const parameters = {
+              Bucket: 'mrbucket-3',
+              Key: 'user-data.txt',
+              Body: data
+            };
+            s3.upload(parameters, function(err, data) {
+              if (err) {
+                console.log('There was an error uploading your file: ', err);
+                return false;
+              }
+              console.log('it actually fucking worked');
 
-        ${toPercent(
-          firstNameData[0].value
-        )} of first names first letter is between A and M ${toPercent(
-          firstNameData[1].value
-        )} of first names are between N and Z.
-        Also, ${toPercent(firstNameData[2].value)} use non-english characters.
+              fs.unlink('./user-data.txt', err => {
+                if (err) {
+                  console.log('failed to delete local image:' + err);
+                }
+                callback(null, response);
+              });
+            });
+          });
+          console.log('The text file was saved!');
+        });
+      } else {
+        let createJSON = createJSONObj(
+          maleFemaleData,
+          firstNameData,
+          lastNameData,
+          femaleData,
+          maleData,
+          overallData,
+          ageRangeData
+        );
+        fileContent = js2xmlparser.parse('users', createJSON);
+        fs.writeFile('user-data.xml', fileContent, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+          fs.readFile('user-data.xml', 'utf8', function(err, data) {
+            if (err) {
+              return console.log(err);
+            }
+            const parameters = {
+              Bucket: 'mrbucket-3',
+              Key: 'user-data.xml',
+              Body: data
+            };
+            console.log(data);
+            s3.upload(parameters, function(err, data) {
+              if (err) {
+                console.log('There was an error uploading your file: ', err);
+                return false;
+              }
 
-        ${toPercent(
-          lastNameData[0].value
-        )} of first names first letter is between A and M ${toPercent(
-          lastNameData[1].value
-        )} of first names are between N and Z.
-        Also, ${toPercent(lastNameData[2].value)} use non-english characters.
-
-        The states with the most female users are these: ${stateFemaleStrings.slice(
-          0,
-          stateFemaleStrings.length - 2
-        )}.
-        The states with the most male users are these: ${stateMaleStrings.slice(
-          0,
-          stateMaleStrings.length - 2
-        )}.
-        The states with the most overall users are these: ${stateOverallStrings.slice(
-          0,
-          stateOverallStrings.length - 2
-        )}.
-
-        There are ${toPercent(
-          ageRangeData[0].value
-        )} users aged between zero and twenty. 
-        There are ${toPercent(
-          ageRangeData[1].value
-        )} users aged between twenty one and forty. 
-        There are ${toPercent(
-          ageRangeData[2].value
-        )} users aged between forty one and sixty. 
-        There are ${toPercent(
-          ageRangeData[3].value
-        )} users aged between sixty one and eighty. 
-        There are ${toPercent(
-          ageRangeData[4].value
-        )} users aged between eighty one and one hundred. 
-        There are ${toPercent(
-          ageRangeData[4].value
-        )} users older then one hundred. 
-        `;
-        console.log(fileContent);
+              fs.unlink('./user-data.xml', err => {
+                if (err) {
+                  console.log('failed to delete local image:' + err);
+                }
+                callback(null, response);
+              });
+            });
+          });
+          console.log('The text file was saved!');
+        });
       }
     }
   });
-
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event
-    })
-  };
-  callback(null, response);
 };
-
-// const fs = require('fs');
-// const content = JSON.stringify(output);
-
-// fs.writeFile("/tmp/phraseFreqs.json", content, 'utf8', function (err) {
-//     if (err) {
-//         return console.log(err);
-//     }
-
-//     console.log("The file was saved!");
-// });
-
-// var fs = require('fs');
-// fs.writeFile("/tmp/test", "Hey there!", function(err) {
-//     if(err) {
-//         return console.log(err);
-//     }
-
-//     console.log("The file was saved!");
-// });

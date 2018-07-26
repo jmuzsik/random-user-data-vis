@@ -39,3 +39,4 @@ testem.log
 Thumbs.db
 .env
 src/app/put-data.service.ts
+src/app/get-data.service.ts

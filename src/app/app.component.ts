@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormComponent } from './form/form.component';
 import { DataService } from './data.service';
+import { GetFileService } from './get-data.service';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +13,17 @@ export class AppComponent implements OnInit {
   submitted = false;
   data: any[];
   failedFile = false;
+  fileDownload = false;
 
   ngOnInit() {
     this.dataService.currentMessage.subscribe(message => {
       if (message === 'reset') {
         this.submitted = false;
+        this.fileDownload = false;
       } else if (message === 'wrong-file') {
         this.submitted = false;
         this.failedFile = true;
+        this.fileDownload = false;
       }
     });
   }
@@ -27,6 +31,13 @@ export class AppComponent implements OnInit {
   receiveMessage(data) {
     this.data = data;
     this.submitted = true;
+    setTimeout(() => {
+      if (!this.failedFile) {
+        setTimeout(() => {
+          this.fileDownload = true;
+        }, 5000);
+      }
+    });
   }
 
   constructor(private dataService: DataService) {}

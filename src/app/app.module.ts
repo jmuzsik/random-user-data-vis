@@ -10,6 +10,7 @@ import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { ReuseableChartComponent } from './reuseable-chart/reuseable-chart.component';
 import { DataService } from './data.service';
 import { UploadFileService } from './put-data.service';
+import { GetFileService } from './get-data.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { UploadFileService } from './put-data.service';
     NgxChartsModule,
     BrowserAnimationsModule
   ],
-  providers: [DataService, UploadFileService],
+  providers: [DataService, UploadFileService, GetFileService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

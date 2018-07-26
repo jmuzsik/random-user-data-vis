@@ -1,7 +1,3 @@
-import { TemplateRef } from '@angular/core';
-
-const mockData = require('./mock.json').results;
-
 export function separateMaleAndFemale(data): [boolean[], boolean[]] {
   let currentUser;
   const females = [],

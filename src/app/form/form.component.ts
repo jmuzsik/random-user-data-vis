@@ -22,6 +22,8 @@ export class FormComponent {
   data: any;
   file: any;
 
+  editedFile: any;
+
   async checkJSON(event) {
     // get value from text area
     const type = event.target.type;
@@ -71,7 +73,12 @@ export class FormComponent {
   onSubmit() {
     this.submitted = true;
     this.sendMessage();
-    this.uploadFileService.uploadfile(this.file);
+    const self = this;
+    setTimeout(() => {
+      if (!self.failedFile) {
+        self.editedFile = this.uploadFileService.uploadfile(this.file);
+      }
+    }, 5000);
   }
   constructor(private uploadFileService: UploadFileService) {}
 }
