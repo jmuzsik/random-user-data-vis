@@ -24,7 +24,7 @@ export class SideNavbarComponent implements OnInit {
     this.data.changeMessage(type);
   }
 
-  downloadFile(_) {
-    this.getFileService.getFile();
+  downloadFile(_, type) {
+    this.getFileService.getFile(type);
   }
 }

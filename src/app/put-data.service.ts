@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
-import * as AWS from 'aws-sdk/global';
-import * as S3 from 'aws-sdk/clients/s3';
-
-const bucket = new S3({
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  region: 'us-east-1'
-});
 
 @Injectable()
 export class UploadFileService {
   constructor() {}
 
   uploadfile(file) {
-    const params = {
-      Bucket: 'mrbucket-3',
-      Key: 'editme.json',
-      Body: file
-    };
-
-    bucket.upload(params, function(err, data) {
-      if (err) {
-        console.log('There was an error uploading your file: ', err);
-        return false;
+    fetch(
+      'https://0p14mpby70.execute-api.us-east-1.amazonaws.com/dev/mrbucket-3/editme.json',
+      {
+        method: 'put',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: file
       }
-      return true;
-    });
+    )
+      .then(response => {
+        fetch(
+          'https://f15t14u2u4.execute-api.us-east-1.amazonaws.com/default/turnFileIntoTxt'
+        )
+          .then(_ => {
+            console.log('All was successful.');
+          })
+          .catch(e =>
+            console.log('error in calling lambda to create other files', e)
+          );
+      })
+      .catch(e => console.log('error in initial adding of file', e));
   }
 }

@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
       if (!this.failedFile) {
         setTimeout(() => {
           this.fileDownload = true;
-        }, 5000);
+        }, 7000);
       }
     });
   }

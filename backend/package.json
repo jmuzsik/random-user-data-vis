@@ -6,13 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "serverless-offline": "3.25.6"
-  },
   "dependencies": {
-    "aws-sdk": "2.280.1",
+    "aws-sdk": "2.282.1",
     "js2xmlparser": "3.0.0"
   }
 }

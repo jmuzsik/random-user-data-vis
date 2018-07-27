@@ -78,7 +78,7 @@ export class FormComponent {
       if (!self.failedFile) {
         self.editedFile = this.uploadFileService.uploadfile(this.file);
       }
-    }, 5000);
+    }, 1000);
   }
   constructor(private uploadFileService: UploadFileService) {}
 }
