@@ -1,27 +1,21 @@
-# NcTrialProject
+# Logic
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+## Frontend
 
-## Development server
+Predominantly built using Angular CLI for the format of the file system, bootstrap for styling, ngx-charts for the charts, and a bunch of JS for site logic, error handling, and data formatting.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Backend
 
-## Code scaffolding
+I decided to do some experimenting by using AWS Lambda, API Gateway, and S3. At first, I aimed to use the Serverless framework but ran into quite a few troubles so I focused on using the AWS console.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To get this all to work I decided to take this path:
 
-## Build
+1. When the user inputs the JSON I store this JSON in an S3 bucket as a file called `editme.json`.
+2. After this file is uploaded I call a lambda function that grabs this file and formats it into the needed types then writes them to file and sends these files (3) to the same S3 bucket.
+3. As, this way lost reference to what a user expects to recieve back I made all 3 files available to download when a user clicks a link.
+4. This link calls an API in API Gateway that has reference to my S3 buckets and can grab a file when given the right signature in the url.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- The backend folder contains the code that gets zipped and put into AWS lambda.
+- Otherwise, my S3 API exists solely in the AWS console. It's signature is in my files: `get-data.service.ts` and `put-data.service.ts`.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Thanks!
