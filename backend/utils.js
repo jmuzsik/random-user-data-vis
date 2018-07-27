@@ -295,6 +295,13 @@ function createJSONObj(
   return fileContent;
 }
 
+const toPercent = float => {
+  let strFloat = String(float);
+  if (strFloat.length < 3) return strFloat;
+  let numbers = strFloat.split(".")[1];
+  return numbers.slice(0, 2) + "." + numbers.slice(2) + "%";
+};
+
 function createTextFile(
   maleFemaleData,
   firstNameData,
@@ -304,12 +311,6 @@ function createTextFile(
   overallData,
   ageRangeData
 ) {
-  const toPercent = float => {
-    let strFloat = String(float);
-    if (strFloat.length < 3) return strFloat;
-    let numbers = strFloat.split(".")[1];
-    return numbers.slice(0, 2) + "." + numbers.slice(2) + "%";
-  };
   const stateFemaleStrings = femaleData.reduce((str, stateObj) => {
     str += `${stateObj.name}(${String(stateObj.value)}), `;
     return str;
@@ -329,16 +330,16 @@ function createTextFile(
 
   ${toPercent(
     firstNameData[0].value
-  )} of first names first letter is between A and M ${toPercent(
+  )} of first names first letter are between A and M ${toPercent(
     firstNameData[1].value
-  )} of first names are between N and Z.
+  )} of first names first letter are between N and Z.
   Also, ${toPercent(firstNameData[2].value)} use non-english characters.
 
   ${toPercent(
     lastNameData[0].value
-  )} of first names first letter is between A and M ${toPercent(
+  )} of last names first letter is between A and M ${toPercent(
     lastNameData[1].value
-  )} of first names are between N and Z.
+  )} of last names first letter are between N and Z.
   Also, ${toPercent(lastNameData[2].value)} use non-english characters.
 
   The states with the most female users are these: ${stateFemaleStrings.slice(
@@ -369,7 +370,7 @@ function createTextFile(
   There are ${toPercent(
     ageRangeData[4].value
   )} users aged between eighty one and one hundred. 
-  There are ${toPercent(ageRangeData[4].value)} users older then one hundred. 
+  There are ${toPercent(ageRangeData[5].value)} users older then one hundred. 
   `;
 }
 module.exports = {

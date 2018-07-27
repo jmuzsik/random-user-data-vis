@@ -444,20 +444,22 @@ var GetFileService = /** @class */ (function () {
     function GetFileService() {
     }
     GetFileService.prototype.getFile = function (type) {
-        if (type === 'txt') {
+        if (type === 'text') {
             fetch('https://0p14mpby70.execute-api.us-east-1.amazonaws.com/dev/mrbucket-3/user-data.txt', {
                 method: 'get',
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
                 }
-            }).then(function (response) {
-                console.log(response, response.body);
-                var blob = new Blob([response.body], {
-                    type: 'application/octet-stream'
+            })
+                .then(function (res) { return res.text(); })
+                .then(function (str) {
+                var blob = new Blob([str], {
+                    type: 'text/plain'
                 });
                 file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.txt');
-            });
+            })
+                .catch(console.log);
         }
         else if (type === 'json') {
             fetch('https://0p14mpby70.execute-api.us-east-1.amazonaws.com/dev/mrbucket-3/user-data.json', {
@@ -466,8 +468,12 @@ var GetFileService = /** @class */ (function () {
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json'
                 }
-            }).then(function (response) {
-                var blob = new Blob([response.body], {
+            })
+                .then(function (response) {
+                return response.json();
+            })
+                .then(function (res) {
+                var blob = new Blob([JSON.stringify(res)], {
                     type: 'application/octet-stream'
                 });
                 file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.json');
@@ -481,7 +487,10 @@ var GetFileService = /** @class */ (function () {
                     'Content-Type': 'application/json'
                 }
             }).then(function (response) {
-                var blob = new Blob([response.body], {
+                return response.text();
+            }).then(function (res) {
+                console.log(res);
+                var blob = new Blob([res], {
                     type: 'application/octet-stream'
                 });
                 file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.xml');
@@ -572,7 +581,7 @@ module.exports = ".main-row {\n  height: 100%;\n  flex-direction: column;\n}\n\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row main-row\" [ngSwitch]=\"chartType\">\n  <div class=\"col-12\" *ngSwitchCase=\"'male-female-chart'\">\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Percentage of Male and Female</h5>\n        <ngx-charts-pie-chart [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData\" [legend]=\"showLegend\" [explodeSlices]=\"explodeSlices\"\n          [labels]=\"showLabels\" [doughnut]=\"doughnut\" [gradient]=\"gradient\">\n        </ngx-charts-pie-chart>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchCase=\"'first-last-name-chart'\">\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">First Names</h5>\n        <ngx-charts-pie-grid [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData1\">\n        </ngx-charts-pie-grid>\n      </div>\n    </div>\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Last Names</h5>\n        <ngx-charts-pie-grid [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData2\">\n        </ngx-charts-pie-grid>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchCase=\"'states-chart'\">\n    <div [ngSwitch]=\"currentChart\">\n      <div *ngSwitchCase=\"'female'\" class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Female Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData1\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n      <div *ngSwitchCase=\"'male'\" class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Male Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData2\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n      <div *ngSwitchDefault class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Overall Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData3\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-12\">\n      <nav aria-label=\"Chart navigation\">\n        <ul class=\"pagination\">\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'female')\" class=\"page-link\" href=\"#\">Female</a>\n          </li>\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'male')\" class=\"page-link\" href=\"#\">Male</a>\n          </li>\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'overall')\" class=\"page-link\" href=\"#\">Overall</a>\n          </li>\n        </ul>\n      </nav>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchDefault>\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Age Ranges of Data</h5>\n        <ngx-charts-tree-map [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData\">\n        </ngx-charts-tree-map>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"row main-row\" [ngSwitch]=\"chartType\">\n  <div class=\"row\" *ngSwitchCase=\"'male-female-chart'\">\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Percentage of Male and Female</h5>\n        <ngx-charts-pie-chart [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData\" [legend]=\"showLegend\" [explodeSlices]=\"explodeSlices\"\n          [labels]=\"showLabels\" [doughnut]=\"doughnut\" [gradient]=\"gradient\">\n        </ngx-charts-pie-chart>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchCase=\"'first-last-name-chart'\">\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">First Names</h5>\n        <ngx-charts-pie-grid [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData1\">\n        </ngx-charts-pie-grid>\n      </div>\n    </div>\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Last Names</h5>\n        <ngx-charts-pie-grid [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData2\">\n        </ngx-charts-pie-grid>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchCase=\"'states-chart'\">\n    <div [ngSwitch]=\"currentChart\">\n      <div *ngSwitchCase=\"'female'\" class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Female Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData1\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n      <div *ngSwitchCase=\"'male'\" class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Male Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData2\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n      <div *ngSwitchDefault class=\"card my-3\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title text-center\">Overall Count</h5>\n          <ngx-charts-bar-vertical [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData3\" [gradient]=\"gradient\" [xAxis]=\"showXAxis\"\n            [yAxis]=\"showYAxis\" [legend]=\"showLegend\" [showXAxisLabel]=\"showXAxisLabel\" [showYAxisLabel]=\"showYAxisLabel\" [xAxisLabel]=\"xAxisLabel\"\n            [yAxisLabel]=\"yAxisLabel\">\n          </ngx-charts-bar-vertical>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-12\">\n      <nav aria-label=\"Chart navigation\">\n        <ul class=\"pagination\">\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'female')\" class=\"page-link\" href=\"#\">Female</a>\n          </li>\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'male')\" class=\"page-link\" href=\"#\">Male</a>\n          </li>\n          <li class=\"page-item\">\n            <a (click)=\"onClick($event, 'overall')\" class=\"page-link\" href=\"#\">Overall</a>\n          </li>\n        </ul>\n      </nav>\n    </div>\n  </div>\n  <div class=\"row\" *ngSwitchDefault>\n    <div class=\"card my-3\">\n      <div class=\"card-body\">\n        <h5 class=\"card-title text-center\">Age Ranges of Data</h5>\n        <ngx-charts-tree-map [view]=\"view\" [scheme]=\"colorScheme\" [results]=\"chartData\">\n        </ngx-charts-tree-map>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -692,7 +701,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-nav col-sm-2 col-md-2 col-lg-1 col-xl-1\">\n  <nav class=\"navbar navbar-expand-sm navbar-dark bg-dark  px-0 flex-row flex-nowrap\">\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarWEX\" aria-controls=\"navbarSupportedContent\"\n      aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"navbar-collapse collapse\" id=\"navbarWEX\">\n      <div class=\"nav flex-sm-column flex-row\">\n        <div class=\"navbar-brand mx-auto my-4\" href=\"#\">\n          <img class=\"mx-auto\" width=\"100\" height=\"100\" src=\"/assets/json.png\" />\n        </div>\n        <h4 class=\"nav-item text-center\">Charts:</h4>\n        <a href=\"#\" class=\"nav-item nav-link\" (click)=\"onClick($event, 'male-female-chart')\">Male/Female</a>\n        <a href=\"#\" class=\"nav-item nav-link\" (click)=\"onClick($event, 'first-last-name-chart')\">First/Last Name</a>\n        <a href=\"#\" class=\"nav-item nav-link\" (click)=\"onClick($event, 'states-chart')\">States</a>\n        <a href=\"#\" class=\"nav-item nav-link\" (click)=\"onClick($event, 'default')\">Age Ranges</a>\n        <a href=\"#\" class=\"nav-item nav-link\" (click)=\"onClick($event, 'reset')\">Reset</a>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link\" (click)=\"downloadFile($event, txt)\">Download Edited File in Text</a>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link\" (click)=\"downloadFile($event, json)\">Download Edited File in JSON</a>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link\" (click)=\"downloadFile($event, xml)\">Download Edited File in XML</a>\n      </div>\n    </div>\n  </nav>\n</div>"
+module.exports = "<div class=\"main-nav\">\n  <nav class=\"navbar navbar-expand-sm px-0 flex-row flex-nowrap\">\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarWEX\" aria-controls=\"navbarSupportedContent\"\n      aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"navbar-collapse collapse\" id=\"navbarWEX\">\n      <div class=\"nav flex-sm-column flex-row\">\n        <div class=\"navbar-brand mx-auto my-4\" href=\"#\">\n          <img class=\"mx-auto\" width=\"100\" height=\"100\" src=\"/assets/json.png\" />\n        </div>\n        <h4 class=\"nav-item text-center my-4\">Charts:</h4>\n        <a href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"onClick($event, 'male-female-chart')\">Male/Female</a>\n        <a href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"onClick($event, 'first-last-name-chart')\">First/Last Name</a>\n        <a href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"onClick($event, 'states-chart')\">States</a>\n        <a href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"onClick($event, 'default')\">Age Ranges</a>\n        <a href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"onClick($event, 'reset')\">Reset Data</a>\n        <h4 *ngIf=\"fileDownload\" class=\"nav-item text-center my-4\">File Downloads</h4>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"downloadFile($event, 'text')\">Download Edited File in Text</a>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"downloadFile($event, 'json')\">Download Edited File in JSON</a>\n        <a *ngIf=\"fileDownload\" href=\"#\" class=\"nav-item nav-link text-center\" (click)=\"downloadFile($event, 'xml')\">Download Edited File in XML</a>\n      </div>\n    </div>\n  </nav>\n</div>"
 
 /***/ }),
 
@@ -735,6 +744,7 @@ var SideNavbarComponent = /** @class */ (function () {
         this.data.changeMessage(type);
     };
     SideNavbarComponent.prototype.downloadFile = function (_, type) {
+        console.log(type);
         this.getFileService.getFile(type);
     };
     __decorate([

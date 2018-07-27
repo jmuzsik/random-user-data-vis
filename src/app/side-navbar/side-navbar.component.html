@@ -1,5 +1,5 @@
-<div class="main-nav col-sm-2 col-md-2 col-lg-1 col-xl-1">
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark  px-0 flex-row flex-nowrap">
+<div class="main-nav">
+  <nav class="navbar navbar-expand-sm px-0 flex-row flex-nowrap">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarWEX" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,15 +9,16 @@
         <div class="navbar-brand mx-auto my-4" href="#">
           <img class="mx-auto" width="100" height="100" src="/assets/json.png" />
         </div>
-        <h4 class="nav-item text-center">Charts:</h4>
-        <a href="#" class="nav-item nav-link" (click)="onClick($event, 'male-female-chart')">Male/Female</a>
-        <a href="#" class="nav-item nav-link" (click)="onClick($event, 'first-last-name-chart')">First/Last Name</a>
-        <a href="#" class="nav-item nav-link" (click)="onClick($event, 'states-chart')">States</a>
-        <a href="#" class="nav-item nav-link" (click)="onClick($event, 'default')">Age Ranges</a>
-        <a href="#" class="nav-item nav-link" (click)="onClick($event, 'reset')">Reset</a>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link" (click)="downloadFile($event, 'text')">Download Edited File in Text</a>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link" (click)="downloadFile($event, 'json')">Download Edited File in JSON</a>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link" (click)="downloadFile($event, 'xml')">Download Edited File in XML</a>
+        <h4 class="nav-item text-center my-4">Charts:</h4>
+        <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'male-female-chart')">Male/Female</a>
+        <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'first-last-name-chart')">First/Last Name</a>
+        <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'states-chart')">States</a>
+        <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'default')">Age Ranges</a>
+        <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'reset')">Reset Data</a>
+        <h4 *ngIf="fileDownload" class="nav-item text-center my-4">File Downloads</h4>
+        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'text')">Download Edited File in Text</a>
+        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'json')">Download Edited File in JSON</a>
+        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'xml')">Download Edited File in XML</a>
       </div>
     </div>
   </nav>
