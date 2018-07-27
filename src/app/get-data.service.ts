@@ -16,8 +16,8 @@ export class GetFileService {
             'Content-Type': 'application/json'
           }
         }
-      ).then((response) => {
-        console.log(response, response.body)
+      ).then(response => {
+        console.log(response, response.body);
         const blob = new Blob([response.body], {
           type: 'application/octet-stream'
         });
@@ -33,8 +33,7 @@ export class GetFileService {
             'Content-Type': 'application/json'
           }
         }
-      ).then((response) => {
-        console.log(response)
+      ).then(response => {
         const blob = new Blob([response.body], {
           type: 'application/octet-stream'
         });
@@ -50,12 +49,12 @@ export class GetFileService {
             'Content-Type': 'application/json'
           }
         }
-      ).then((response) => {
-        console.log(response)
+      ).then(response => {
         const blob = new Blob([response.body], {
           type: 'application/octet-stream'
         });
         FileSaver.saveAs(blob, 'edited-file.txt');
+      });
     }
   }
 }
