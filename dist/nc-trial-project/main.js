@@ -470,7 +470,7 @@ var GetFileService = /** @class */ (function () {
                 var blob = new Blob([response.body], {
                     type: 'application/octet-stream'
                 });
-                file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.txt');
+                file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.json');
             });
         }
         else {
@@ -484,7 +484,7 @@ var GetFileService = /** @class */ (function () {
                 var blob = new Blob([response.body], {
                     type: 'application/octet-stream'
                 });
-                file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.txt');
+                file_saver__WEBPACK_IMPORTED_MODULE_1__["saveAs"](blob, 'edited-file.xml');
             });
         }
     };

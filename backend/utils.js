@@ -1,10 +1,11 @@
 function separateMaleAndFemale(data) {
+  console.log(data)
   let currentUser;
   const females = [],
     males = [];
   for (let i = 0; i < data.length; i++) {
     currentUser = data[i];
-    if (currentUser.gender === 'female') {
+    if (currentUser.gender === "female") {
       females.push(true);
     } else {
       males.push(true);
@@ -14,6 +15,7 @@ function separateMaleAndFemale(data) {
 }
 
 function separateByName(data, firstOrLast) {
+  console.log(data)
   let currentUser, name;
   const namesAtoM = [],
     namesNtoZ = [],
@@ -23,7 +25,7 @@ function separateByName(data, firstOrLast) {
     zASCIIValue = 122;
   for (let i = 0; i < data.length; i++) {
     currentUser = data[i];
-    if (firstOrLast === 'first') {
+    if (firstOrLast === "first") {
       name = currentUser.name.first;
     } else {
       name = currentUser.name.last;
@@ -100,34 +102,34 @@ function separateByAgeRanges(data) {
 function createChartData(type, data) {
   const finalData = [];
   switch (type) {
-    case 'male-female-chart':
+    case "male-female-chart":
       const [amountOfFemales, amountOfMales] = separateMaleAndFemale(data);
       const [percentageOfFemales, percentageOfMales] = getPercentage([
         amountOfFemales.length,
         amountOfMales.length
       ]);
       const femaleChartObj = {
-        name: 'Female',
+        name: "Female",
         value: percentageOfFemales
       };
       finalData.push(femaleChartObj);
       const maleChartObj = {
-        name: 'Male',
+        name: "Male",
         value: percentageOfMales
       };
       finalData.push(maleChartObj);
       return finalData;
-    case 'first-last-name-chart':
+    case "first-last-name-chart":
       const [
         firstnameAtoM,
         firstnameMtoZ,
         firstnameDifferentASCII
-      ] = separateByName(data, 'first');
+      ] = separateByName(data, "first");
       const [
         lastnameAtoM,
         lastnameMtoZ,
         lastnameDifferentASCII
-      ] = separateByName(data, 'last');
+      ] = separateByName(data, "last");
       const [
         firstnameAtoMPercentage,
         firstnameMtoZPercentage,
@@ -147,39 +149,39 @@ function createChartData(type, data) {
         lastnameDifferentASCII.length
       ]);
       const firstNameAtoMChartObj = {
-        name: 'A to M',
+        name: "A to M",
         value: firstnameAtoMPercentage
       };
       finalData.push([]);
       finalData[0].push(firstNameAtoMChartObj);
       const firstNameMtoZChartObj = {
-        name: 'M to Z',
+        name: "M to Z",
         value: firstnameMtoZPercentage
       };
       finalData[0].push(firstNameMtoZChartObj);
       const firstNameDifferentASCIIChartObj = {
-        name: 'Different ASCII',
+        name: "Different ASCII",
         value: firstnameDifferentASCIIPercentage
       };
       finalData[0].push(firstNameDifferentASCIIChartObj);
       const lastnameAtoMChartObj = {
-        name: 'A to M',
+        name: "A to M",
         value: lastnameAtoMPercentage
       };
       finalData.push([]);
       finalData[1].push(lastnameAtoMChartObj);
       const lastnameMtoZChartObj = {
-        name: 'M to Z',
+        name: "M to Z",
         value: lastnameMtoZPercentage
       };
       finalData[1].push(lastnameMtoZChartObj);
       const lastnameDifferentASCIIChartObj = {
-        name: 'Different ASCII',
+        name: "Different ASCII",
         value: lastnameDifferentASCIIPercentage
       };
       finalData[1].push(lastnameDifferentASCIIChartObj);
       return finalData;
-    case 'states-chart':
+    case "states-chart":
       const statesData = separateByState(data);
       const convertDataToArr = [];
       Object.keys(statesData).forEach(state => {
@@ -244,7 +246,7 @@ function createChartData(type, data) {
       const percentages = getPercentage(getValuesForPercentage);
       keys.forEach((ageRange, i) => {
         const ageRangeObj = {
-          name: ageRange.split('_').join(' '),
+          name: ageRange.split("_").join(" "),
           value: percentages[i]
         };
         finalData.push(ageRangeObj);
@@ -274,22 +276,23 @@ function createJSONObj(
   ageRangeData
 ) {
   fileContent = {};
-  fileContent['maleFemalePercentages'] = {
+  fileContent["maleFemalePercentages"] = {
     female: maleFemaleData[0].value,
     male: maleFemaleData[1].value
   };
-  fileContent['firstLastNamePercentages'] = {
+  fileContent["firstLastNamePercentages"] = {
     firstNameData,
     lastNameData
   };
-  fileContent['statesData'] = {
+  fileContent["statesData"] = {
     femaleData,
     maleData,
     overallData
   };
-  fileContent['ageRange'] = {
+  fileContent["ageRange"] = {
     ageRangeData
   };
+  return fileContent;
 }
 
 function createTextFile(
@@ -304,8 +307,8 @@ function createTextFile(
   const toPercent = float => {
     let strFloat = String(float);
     if (strFloat.length < 3) return strFloat;
-    let numbers = strFloat.split('.')[1];
-    return numbers.slice(0, 2) + '.' + numbers.slice(2) + '%';
+    let numbers = strFloat.split(".")[1];
+    return numbers.slice(0, 2) + "." + numbers.slice(2) + "%";
   };
   const stateFemaleStrings = femaleData.reduce((str, stateObj) => {
     str += `${stateObj.name}(${String(stateObj.value)}), `;

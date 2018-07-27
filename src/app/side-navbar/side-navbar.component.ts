@@ -25,6 +25,7 @@ export class SideNavbarComponent implements OnInit {
   }
 
   downloadFile(_, type) {
+    console.log(type)
     this.getFileService.getFile(type);
   }
 }
