@@ -73,18 +73,6 @@ exports.handler = (event, context, callback) => {
         console.log('The text file was saved!');
       });
 
-      json = JSON.parse(data.Body.toString('utf8')).results;
-
-      maleFemaleData = createChartData('male-female-chart', json);
-      firstLastNameData = createChartData('first-last-name-chart', json);
-      firstNameData = firstLastNameData[0];
-      lastNameData = firstLastNameData[1];
-      stateData = createChartData('states-chart', json);
-      femaleData = stateData[0];
-      maleData = stateData[1];
-      overallData = stateData[2];
-      ageRangeData = createChartData('age-range', json);
-
       fileContent = createTextFile(
         maleFemaleData,
         firstNameData,
@@ -115,17 +103,6 @@ exports.handler = (event, context, callback) => {
         });
         console.log('The json file was saved!');
       });
-      json = JSON.parse(data.Body.toString('utf8')).results;
-
-      maleFemaleData = createChartData('male-female-chart', json);
-      firstLastNameData = createChartData('first-last-name-chart', json);
-      firstNameData = firstLastNameData[0];
-      lastNameData = firstLastNameData[1];
-      stateData = createChartData('states-chart', json);
-      femaleData = stateData[0];
-      maleData = stateData[1];
-      overallData = stateData[2];
-      ageRangeData = createChartData('age-range', json);
 
       let createJSON = createJSONObj(
         maleFemaleData,
