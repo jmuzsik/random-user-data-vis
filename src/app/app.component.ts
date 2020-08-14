@@ -1,7 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormComponent } from './form/form.component';
 import { DataService } from './data.service';
-import { GetFileService } from './get-data.service';
 
 @Component({
   selector: 'app-root',

@@ -3,6 +3,7 @@
     <app-side-navbar [fileDownload]="fileDownload"></app-side-navbar>
     <main class="col bg-faded py-3">
       <div *ngIf="!submitted; else showCharts;">
+        <app-collapse></app-collapse>
         <app-form [failedFile]="failedFile" (messageEvent)="receiveMessage($event)"></app-form>
       </div>
       <ng-template #showCharts>

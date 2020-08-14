@@ -31,6 +31,7 @@ export function separateByName(
     } else {
       name = currentUser.name.last;
     }
+    name = name.toLowerCase();
     if (
       name.charCodeAt(0) >= aASCIIValue &&
       name.charCodeAt(0) <= mASCIIValue

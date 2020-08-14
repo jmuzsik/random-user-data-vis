@@ -15,10 +15,6 @@
         <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'states-chart')">States</a>
         <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'default')">Age Ranges</a>
         <a href="#" class="nav-item nav-link text-center" (click)="onClick($event, 'reset')">Reset Data</a>
-        <h4 *ngIf="fileDownload" class="nav-item text-center my-4">File Downloads</h4>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'text')">Download Edited File in Text</a>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'json')">Download Edited File in JSON</a>
-        <a *ngIf="fileDownload" href="#" class="nav-item nav-link text-center" (click)="downloadFile($event, 'xml')">Download Edited File in XML</a>
       </div>
     </div>
   </nav>

@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { UploadFileService } from '../put-data.service';
 
 @Component({
   selector: 'app-form',
@@ -74,11 +73,6 @@ export class FormComponent {
     this.submitted = true;
     this.sendMessage();
     const self = this;
-    setTimeout(() => {
-      if (!self.failedFile) {
-        self.editedFile = this.uploadFileService.uploadfile(this.file);
-      }
-    }, 1000);
   }
-  constructor(private uploadFileService: UploadFileService) {}
+  constructor() {}
 }

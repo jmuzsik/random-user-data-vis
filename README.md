@@ -16,7 +16,6 @@ To get this all to work I decided to take this path:
 4. This link calls an API in API Gateway that has reference to my S3 buckets and can grab a file when given the right signature in the url.
 
 - The backend folder contains the code that gets zipped and put into AWS lambda.
-- Otherwise, my S3 API exists solely in the AWS console. It's signature is in my files: `get-data.service.ts` and `put-data.service.ts`.
 
 Thanks!
 

@@ -6,16 +6,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { FormComponent } from './form/form.component';
+import { CollapseComponent } from './collapse/collapse.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { ReuseableChartComponent } from './reuseable-chart/reuseable-chart.component';
 import { DataService } from './data.service';
-import { UploadFileService } from './put-data.service';
-import { GetFileService } from './get-data.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
+    CollapseComponent,
     SideNavbarComponent,
     ReuseableChartComponent
   ],
@@ -25,7 +25,7 @@ import { GetFileService } from './get-data.service';
     NgxChartsModule,
     BrowserAnimationsModule
   ],
-  providers: [DataService, UploadFileService, GetFileService],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

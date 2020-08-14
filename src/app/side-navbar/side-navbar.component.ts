@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
-import { GetFileService } from '../get-data.service';
 
 @Component({
   selector: 'app-side-navbar',
@@ -13,7 +12,6 @@ export class SideNavbarComponent implements OnInit {
 
   constructor(
     private data: DataService,
-    private getFileService: GetFileService
   ) {}
 
   ngOnInit() {
@@ -26,6 +24,5 @@ export class SideNavbarComponent implements OnInit {
 
   downloadFile(_, type) {
     console.log(type)
-    this.getFileService.getFile(type);
   }
 }
